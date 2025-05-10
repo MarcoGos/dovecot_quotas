@@ -1,0 +1,41 @@
+{
+    "config": {
+        "error": {
+            "cannot_connect": "Verbinding mislukt",
+            "invalid_auth": "Ongeldige autorisatie",
+            "unknown": "Onverwachte fout"
+        },
+        "abort": {
+            "already_configured": "Apparaat is al geconfigureerd"
+        },
+        "step": {
+            "user": {
+                "description": "Dovecot host informatie",
+                "data": {
+                    "hostname": "Hostname",
+                    "username": "Gebruikersnaam",
+                    "password": "Wachtwoord"
+                }
+            },
+            "accounts": {
+                "description": "Selecteer de accounts die u wilt volgen",
+                "data": {
+                    "accounts": "Accounts"
+                }
+            }
+        }
+    },
+    "entity": {
+        "sensor": {
+            "quota": {
+                "name": "Quota"
+            },
+            "used": {
+                "name": "Gebruikt"
+            },
+            "percentage_used": {
+                "name": "Gebruikt (%)"
+            }
+        }
+    }
+}

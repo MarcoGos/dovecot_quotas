@@ -1,0 +1,41 @@
+{
+    "config": {
+        "error": {
+            "cannot_connect": "Failed to connect",
+            "invalid_auth": "Failed authorization",
+            "unknown": "Unexpected error"
+        },
+        "abort": {
+            "already_configured": "Device is already configured"
+        },
+        "step": {
+            "user": {
+                "description": "Dovecot host information",
+                "data": {
+                    "hostname": "Hostname",
+                    "username": "Username",
+                    "password": "Password"
+                }
+            },
+            "accounts": {
+                "description": "Select the accounts you want to track",
+                "data": {
+                    "accounts": "Accounts"
+                }
+            }
+        }
+    },
+    "entity": {
+        "sensor": {
+            "quota": {
+                "name": "Quota"
+            },
+            "used": {
+                "name": "Used"
+            },
+            "percentage_used": {
+                "name": "Used (%)"
+            }
+        }
+    }
+}
