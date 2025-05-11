@@ -29,8 +29,10 @@ from .coordinator import DovecotQuotasUpdateCoordinator
 
 from .const import (
     DOMAIN,
+    MODEL,
     MANUFACTURER,
-    CONF_ACCOUNTS
+    CONF_ACCOUNTS,
+    CONF_VERSION,
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -102,6 +104,7 @@ class AccountSensor(CoordinatorEntity[DovecotQuotasUpdateCoordinator], SensorEnt
     ) -> None:
         """Initialize Dovecot Quotas sensor."""
         super().__init__(coordinator=coordinator)
+        version = coordinator.data.get(CONF_VERSION, None)
         self.entity_description = description
         self.entity_id = f"{SENSOR_DOMAIN}.{account} {description.key}".lower()
         self._attr_unique_id = f"{entry_id}-{account} {description.key}"
@@ -109,13 +112,15 @@ class AccountSensor(CoordinatorEntity[DovecotQuotasUpdateCoordinator], SensorEnt
             entry_type=DeviceEntryType.SERVICE,
             identifiers={(DOMAIN, account)},
             name=account,
-            model=account,
+            model=MODEL,
             manufacturer=MANUFACTURER,
+            sw_version=version,
         )
         self._account = account
 
     @property
     def native_value(self) -> StateType: # type: ignore
         """Return the state of the sensor."""
-        quota_info = self.coordinator.data.get(self._account, None)
+        accounts = self.coordinator.data.get(CONF_ACCOUNTS, {})
+        quota_info = accounts.get(self._account, None)
         return quota_info.get(self.entity_description.key, None)

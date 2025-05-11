@@ -10,7 +10,6 @@ from homeassistant import config_entries
 from homeassistant.data_entry_flow import FlowResult
 from homeassistant.exceptions import HomeAssistantError
 from homeassistant.helpers import config_validation
-# from homeassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .const import DOMAIN, CONF_HOSTNAME, CONF_USERNAME, CONF_PASSWORD, CONF_ACCOUNTS
 from .api import QuotasAPI
@@ -33,7 +32,7 @@ class PlaceholderHub:
             password=password,
         )
         try:
-            await api.get_quotas()
+            await api.test_connection()
         except Exception as err:
             _LOGGER.error("Error in authenticate: %s", err)
             return False
@@ -109,6 +108,7 @@ class DovecotQuotasConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     async def async_step_accounts(
             self, user_input: dict[str, Any] | None = None
     ) -> FlowResult:
+        """Handle the accounts step."""
 
         if user_input is None:
             _LOGGER.debug("async_step_accounts: user_input is None, now creating api")

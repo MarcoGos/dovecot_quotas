@@ -16,3 +16,5 @@ CONF_USERNAME = "username"
 CONF_PASSWORD = "password"
 
 CONF_ACCOUNTS = "accounts"
+
+CONF_VERSION = "version"
