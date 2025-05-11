@@ -7,6 +7,7 @@ from typing import Any
 import voluptuous as vol
 
 from homeassistant import config_entries
+from homeassistant.config_entries import ConfigFlowResult
 from homeassistant.data_entry_flow import FlowResult
 from homeassistant.exceptions import HomeAssistantError
 from homeassistant.helpers import config_validation
@@ -120,34 +121,76 @@ class DovecotQuotasConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             accounts = []
             _LOGGER.debug("async_step_accounts: created api, now getting quotas")
             quotas = await api.get_quotas()
-            real_quotas = {
-                account: info for account, info in quotas.items()
-                if info['quota'] != '-'
-            }
             _LOGGER.debug("async_step_accounts: got quotas, now creating accounts list")
-            for account in sorted(real_quotas.keys()):
+            for account in sorted(quotas.keys()):
                 accounts.append(account)
 
-            STEP_ACCOUNTS_DATA_SCHEMA = vol.Schema(
+            data_schema = vol.Schema(
                 {
                     vol.Required(CONF_ACCOUNTS): config_validation.multi_select(accounts)
                 }
             )
 
             return self.async_show_form(
-                step_id="accounts", data_schema=STEP_ACCOUNTS_DATA_SCHEMA
+                step_id="accounts", data_schema=data_schema
             )
         else:
             # Create all the devices and entities
-            if CONF_ACCOUNTS in user_input:
-                selected_accounts = user_input[CONF_ACCOUNTS]
-                _LOGGER.debug("async_step_accounts: selected accounts: %s", selected_accounts)
-                self._config[CONF_ACCOUNTS] = selected_accounts
-                return self.async_create_entry(title=f"{self._config[CONF_HOSTNAME]}", data=self._config)
+            selected_accounts = user_input[CONF_ACCOUNTS]
+            _LOGGER.debug("async_step_accounts: selected accounts: %s", selected_accounts)
+            self._config[CONF_ACCOUNTS] = selected_accounts
+            return self.async_create_entry(title=f"{self._config[CONF_HOSTNAME]}", data=self._config)
 
+    async def async_step_reconfigure(
+        self, _: dict[str, Any] | None = None
+    ) -> ConfigFlowResult:
+        """Handle a reconfiguration flow initialized by the user."""
+        self.entry = self.hass.config_entries.async_get_entry(self.context["entry_id"])
 
+        return await self.async_step_reconfigure_confirm()
 
+    async def async_step_reconfigure_confirm(
+        self, user_input: dict[str, Any] | None = None
+    ) -> ConfigFlowResult:
+        """Handle a reconfiguration flow initialized by the user."""
+        errors: dict[str, str] | None = {}
 
+        if user_input is not None:
+            self.hass.config_entries.async_update_entry(
+                self.entry, data=self.entry.data | user_input # type: ignore
+            )
+            await self.hass.config_entries.async_reload(self.entry.entry_id) # type: ignore
+            return self.async_abort(reason="reconfigure_successful")
+
+        hostname = self.entry.data.get(CONF_HOSTNAME)
+        username = self.entry.data.get(CONF_USERNAME)
+        password = self.entry.data.get(CONF_PASSWORD)
+        api = QuotasAPI(
+            hostname=hostname,
+            username=username,
+            password=password,
+        )
+        accounts = []
+        quotas = await api.get_quotas()
+        for account in sorted(quotas.keys()):
+            accounts.append(account)
+
+        data_schema = vol.Schema(
+            {
+                vol.Required(CONF_ACCOUNTS): config_validation.multi_select(accounts)
+            }
+        )
+
+        return self.async_show_form(
+            step_id="reconfigure_confirm",
+            data_schema=self.add_suggested_values_to_schema(
+                data_schema=data_schema,
+                suggested_values=self.entry.data | (user_input or {}), # type: ignore
+            ),
+            description_placeholders={"name": self.entry.title}, # type: ignore
+            errors=errors,
+        )
+    
 class CannotConnect(HomeAssistantError):
     """Error to indicate we cannot connect."""
 

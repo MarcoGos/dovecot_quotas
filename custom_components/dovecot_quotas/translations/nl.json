@@ -1,12 +1,13 @@
 {
     "config": {
+        "abort": {
+            "already_configured": "Apparaat is al geconfigureerd",
+            "reconfigure_successful": "Herconfiguratie was succesvol"
+        },
         "error": {
             "cannot_connect": "Verbinding mislukt",
             "invalid_auth": "Ongeldige autorisatie",
             "unknown": "Onverwachte fout"
-        },
-        "abort": {
-            "already_configured": "Apparaat is al geconfigureerd"
         },
         "step": {
             "user": {
@@ -19,6 +20,12 @@
             },
             "accounts": {
                 "description": "Selecteer de accounts die u wilt volgen",
+                "data": {
+                    "accounts": "Accounts"
+                }
+            },
+            "reconfigure_confirm": {
+                "description": "Herconfigureer het apparaat",
                 "data": {
                     "accounts": "Accounts"
                 }

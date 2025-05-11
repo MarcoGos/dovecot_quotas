@@ -1,12 +1,13 @@
 {
     "config": {
+        "abort": {
+            "already_configured": "Device is already configured",
+            "reconfigure_successful": "Re-configuration was successful"
+        },        
         "error": {
             "cannot_connect": "Failed to connect",
             "invalid_auth": "Failed authorization",
             "unknown": "Unexpected error"
-        },
-        "abort": {
-            "already_configured": "Device is already configured"
         },
         "step": {
             "user": {
@@ -19,6 +20,12 @@
             },
             "accounts": {
                 "description": "Select the accounts you want to track",
+                "data": {
+                    "accounts": "Accounts"
+                }
+            },
+            "reconfigure_confirm": {
+                "description": "Reconfigure the device",
                 "data": {
                     "accounts": "Accounts"
                 }

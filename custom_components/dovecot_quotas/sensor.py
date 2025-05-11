@@ -123,4 +123,5 @@ class AccountSensor(CoordinatorEntity[DovecotQuotasUpdateCoordinator], SensorEnt
         """Return the state of the sensor."""
         accounts = self.coordinator.data.get(CONF_ACCOUNTS, {})
         quota_info = accounts.get(self._account, None)
-        return quota_info.get(self.entity_description.key, None)
+        value = quota_info.get(self.entity_description.key, None)
+        return value if value != "-" else None
