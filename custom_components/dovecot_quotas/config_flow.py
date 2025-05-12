@@ -10,7 +10,7 @@ from homeassistant import config_entries
 from homeassistant.config_entries import ConfigFlowResult
 from homeassistant.data_entry_flow import FlowResult
 from homeassistant.exceptions import HomeAssistantError
-from homeassistant.helpers import config_validation
+from homeassistant.helpers import config_validation, device_registry as dr
 
 from .const import DOMAIN, CONF_HOSTNAME, CONF_USERNAME, CONF_PASSWORD, CONF_ACCOUNTS
 from .api import QuotasAPI
@@ -156,6 +156,20 @@ class DovecotQuotasConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         errors: dict[str, str] | None = {}
 
         if user_input is not None:
+            _LOGGER.debug('user_input: %s', user_input.get(CONF_ACCOUNTS))
+            _LOGGER.debug('self.entry.data: %s', self.entry.data.get(CONF_ACCOUNTS))
+            device_registry = dr.async_get(self.hass)
+            for account in self.entry.data.get(CONF_ACCOUNTS):
+                if account not in user_input.get(CONF_ACCOUNTS):
+                    _LOGGER.debug('Account %s not in user_input', account)
+                    device = device_registry.async_get_device(identifiers={(DOMAIN, account)})
+                    if device:
+                        _LOGGER.debug('Removing device: %s', device)
+                        device_registry.async_update_device(
+                            device_id=device.id,
+                            remove_config_entry_id=self.entry.entry_id,
+                        )
+
             self.hass.config_entries.async_update_entry(
                 self.entry, data=self.entry.data | user_input # type: ignore
             )
@@ -190,7 +204,7 @@ class DovecotQuotasConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             description_placeholders={"name": self.entry.title}, # type: ignore
             errors=errors,
         )
-    
+
 class CannotConnect(HomeAssistantError):
     """Error to indicate we cannot connect."""
 
