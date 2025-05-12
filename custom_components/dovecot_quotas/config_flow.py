@@ -158,10 +158,11 @@ class DovecotQuotasConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         if user_input is not None:
             _LOGGER.debug('user_input: %s', user_input.get(CONF_ACCOUNTS))
             _LOGGER.debug('self.entry.data: %s', self.entry.data.get(CONF_ACCOUNTS))
+            new_accounts = user_input.get(CONF_ACCOUNTS, [])
+            old_accounts = self.entry.data.get(CONF_ACCOUNTS, [])
             device_registry = dr.async_get(self.hass)
-            for account in self.entry.data.get(CONF_ACCOUNTS):
-                if account not in user_input.get(CONF_ACCOUNTS):
-                    _LOGGER.debug('Account %s not in user_input', account)
+            if (removed_accounts := set(old_accounts) - set(new_accounts)):
+                for account in removed_accounts:
                     device = device_registry.async_get_device(identifiers={(DOMAIN, account)})
                     if device:
                         _LOGGER.debug('Removing device: %s', device)
