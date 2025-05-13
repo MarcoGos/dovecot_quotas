@@ -2,7 +2,7 @@
     "config": {
         "abort": {
             "already_configured": "Apparaat is al geconfigureerd",
-            "reconfigure_successful": "Herconfiguratie was succesvol"
+            "reconfigure_successful": "Herconfiguratie is geslaagd"
         },
         "error": {
             "cannot_connect": "Verbinding mislukt",
@@ -35,13 +35,19 @@
     "entity": {
         "sensor": {
             "quota": {
-                "name": "Quota"
+                "name": "Quotum"
             },
             "used": {
                 "name": "Gebruikt"
             },
             "percentage_used": {
                 "name": "Gebruikt (%)"
+            },
+            "free": {
+                "name": "Vrij"
+            },
+            "percentage_free": {
+                "name": "Vrij (%)"
             }
         }
     }

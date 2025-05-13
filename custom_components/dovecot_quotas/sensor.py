@@ -64,7 +64,26 @@ def get_sensor_descriptions() -> list[SensorEntityDescription]:
             icon="mdi:percent-outline",
             native_unit_of_measurement=PERCENTAGE,
             state_class=SensorStateClass.MEASUREMENT,
-        )
+        ),
+        SensorEntityDescription(
+            key="free",
+            translation_key="free",
+            icon="mdi:gauge-low",
+            state_class=SensorStateClass.MEASUREMENT,
+            device_class=SensorDeviceClass.DATA_SIZE,
+            native_unit_of_measurement=UnitOfInformation.KILOBYTES,
+            suggested_unit_of_measurement=UnitOfInformation.MEGABYTES,
+            suggested_display_precision=1,
+            entity_registry_enabled_default=False,
+        ),
+        SensorEntityDescription(
+            key="percentage_free",
+            translation_key="percentage_free",
+            icon="mdi:percent-outline",
+            native_unit_of_measurement=PERCENTAGE,
+            state_class=SensorStateClass.MEASUREMENT,
+            entity_registry_enabled_default=False,
+        ),
     ]
     return descriptions
 

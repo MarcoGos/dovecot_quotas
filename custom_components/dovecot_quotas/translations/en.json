@@ -42,6 +42,12 @@
             },
             "percentage_used": {
                 "name": "Used (%)"
+            },
+            "free": {
+                "name": "Free"
+            },
+            "percentage_free": {
+                "name": "Free (%)"
             }
         }
     }
