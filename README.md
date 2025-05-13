@@ -39,9 +39,9 @@ The following entities will be created for every selected account (device):
 - Quota:
     - Quota setup for account. Value will be Unknown if no quota is set.
 - Free:
-    - Total free space [^1]
+    - Total free space[^1]
 - Free (%)
-    - Percentage free space based on quota. [^2]
+    - Percentage free space based on quota[^2]
 - Used:
     - Total used space
 - Used (%): 
@@ -53,8 +53,8 @@ The entity information is updated every 60 minutes.
 
 No problem known thus far.
 
-[^1] Is calculated by Quota - Used
-[^2] Is calculated by substracting 100% - Used (%)
+[^1]: Is calculated by Quota - Used
+[^2]: Is calculated by substracting 100% - Used (%)
 
 [commits-shield]: https://img.shields.io/github/commit-activity/y/MarcoGos/dovecot_quotas.svg?style=for-the-badge
 [commits]: https://github.com/MarcoGos/dovecot_quotas/commits/main
