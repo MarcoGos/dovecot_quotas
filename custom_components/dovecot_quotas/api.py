@@ -7,6 +7,7 @@ import paramiko
 TIMEOUT = 10
 
 GET_QUOTA_CMD = "doveadm quota get -A | grep STORAGE"
+GET_DOVECOT_VERSION_CMD = "doveadm --version"
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -23,7 +24,7 @@ class QuotasAPI:
 
     async def get_version(self) -> str:
         '''Get the version of Dovecot installed on the server.'''
-        output = await self.execute_command("dovecot --version")
+        output = await self.execute_command(GET_DOVECOT_VERSION_CMD)
         version = re.search(r"(\d+\.\d+\.\d+\.\d+)", output)
         return version.group() if version else ""
 
