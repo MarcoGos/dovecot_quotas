@@ -143,4 +143,4 @@ class AccountSensor(CoordinatorEntity[DovecotQuotasUpdateCoordinator], SensorEnt
         accounts = self.coordinator.data.get(CONF_ACCOUNTS, {})
         quota_info = accounts.get(self._account, None)
         value = quota_info.get(self.entity_description.key, None)
-        return value if value != "-" else None
+        return value

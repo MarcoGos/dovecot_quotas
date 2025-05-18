@@ -24,7 +24,7 @@
                     "accounts": "Accounts"
                 }
             },
-            "reconfigure_confirm": {
+            "reconfigure": {
                 "description": "Reconfigure the device",
                 "data": {
                     "accounts": "Accounts"

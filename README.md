@@ -7,7 +7,9 @@
 ![Project Maintenance][maintenance-shield]
 [![Community Forum][forum-shield]][forum]
 
-This is a custom integration for retrieving Dovecot quota information.
+Dovecot is an open-source IMAP and POP3 server for Unix-like operating systems, written primarily with security in mind. Timo Sirainen originated Dovecot and first released it in July 2002. Dovecot developers primarily aim to produce a lightweight, fast and easy-to-set-up open-source email server. The primary purpose of Dovecot is to act as a mail storage server. The mail is delivered to the server using some mail delivery agent and is stored for later access with an email client.[^3]
+
+Within Dovecot you can set quota's. This custom integration will retreive these quota's and present them within Home Assistant.
 
 ## Prerequirements
 
@@ -29,7 +31,7 @@ Via HACS:
 
 ## Setup
 
-Provide a hostname, username and password and select the account you want to follow.
+Provide a hostname, username and password and select the accounts you want to follow.
 
 ## What to expect?
 
@@ -55,6 +57,7 @@ No problem known thus far.
 
 [^1]: Is calculated by Quota - Used
 [^2]: Is calculated by substracting 100% - Used (%)
+[^3]: Source Wikipedia
 
 [commits-shield]: https://img.shields.io/github/commit-activity/y/MarcoGos/dovecot_quotas.svg?style=for-the-badge
 [commits]: https://github.com/MarcoGos/dovecot_quotas/commits/main

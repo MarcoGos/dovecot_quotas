@@ -24,7 +24,7 @@
                     "accounts": "Accounts"
                 }
             },
-            "reconfigure_confirm": {
+            "reconfigure": {
                 "description": "Herconfigureer het apparaat",
                 "data": {
                     "accounts": "Accounts"

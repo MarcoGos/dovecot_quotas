@@ -2,12 +2,11 @@
 import re
 import logging
 import socket
-from pathlib import Path
 import paramiko
 
 TIMEOUT = 10
 
-get_quota_cmd = "doveadm quota get -A | grep STORAGE"
+GET_QUOTA_CMD = "doveadm quota get -A | grep STORAGE"
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -37,9 +36,9 @@ class QuotasAPI:
         '''Update the quotas for all mailboxes.'''
         self._quotas = {}
 
-        result = await self.execute_command(get_quota_cmd)
+        result = await self.execute_command(GET_QUOTA_CMD)
         if not result:
-            _LOGGER.error("Failed to execute command: %s", get_quota_cmd)
+            _LOGGER.error("Failed to execute command: %s", GET_QUOTA_CMD)
             return
 
         quotas = {}
@@ -59,7 +58,12 @@ class QuotasAPI:
         '''Test the SSH connection to the server.'''
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-        ssh.connect(self._hostname, username=self._username, password=self._password, timeout=TIMEOUT)
+        ssh.connect(
+            self._hostname,
+            username=self._username,
+            password=self._password,
+            timeout=TIMEOUT
+        )
         ssh.close()
 
     async def execute_command(self, command: str) -> str:
@@ -67,9 +71,14 @@ class QuotasAPI:
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         try:
-            ssh.connect(self._hostname, username=self._username, password=self._password, timeout=TIMEOUT)
+            ssh.connect(
+                self._hostname,
+                username=self._username,
+                password=self._password,
+                timeout=TIMEOUT
+            )
         except (paramiko.SSHException, socket.timeout) as e:
-            _LOGGER.error(f"SSH connection failed: {e}")
+            _LOGGER.error("SSH connection failed: %s", e)
             return
         ssh_stdin, ssh_stdout, ssh_stderr = ssh.exec_command(command)
         ssh_stdin.close()
