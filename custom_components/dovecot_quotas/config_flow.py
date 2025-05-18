@@ -45,8 +45,6 @@ class DovecotQuotasOptionsFlowHandler(config_entries.OptionsFlow):
         entry = self.config_entry
 
         if user_input is not None:
-            _LOGGER.debug('user_input: %s', user_input.get(CONF_ACCOUNTS))
-            _LOGGER.debug('self.entry.data: %s', entry.data.get(CONF_ACCOUNTS))
             new_accounts = user_input.get(CONF_ACCOUNTS, [])
             old_accounts = entry.data.get(CONF_ACCOUNTS, [])
             device_registry = dr.async_get(self.hass)
@@ -160,7 +158,6 @@ class DovecotQuotasConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         if user_input is not None:
             # Create all the devices and entities
             selected_accounts = user_input[CONF_ACCOUNTS]
-            _LOGGER.debug("async_step_accounts: selected accounts: %s", selected_accounts)
             self._config[CONF_ACCOUNTS] = selected_accounts
             return self.async_create_entry(
                 title=self._config[CONF_HOSTNAME],

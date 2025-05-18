@@ -13,7 +13,7 @@
             "user": {
                 "description": "Dovecot host informatie",
                 "data": {
-                    "hostname": "Hostname",
+                    "hostname": "Hostnaam",
                     "username": "Gebruikersnaam",
                     "password": "Wachtwoord"
                 }
@@ -28,7 +28,7 @@
             "reconfigure": {
                 "description": "Dovecot host informatie",
                 "data": {
-                    "hostname": "Hostname",
+                    "hostname": "Hostnaam",
                     "username": "Gebruikersnaam",
                     "password": "Wachtwoord"
                 }

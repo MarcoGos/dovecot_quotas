@@ -14,7 +14,6 @@ from .const import (
 
 _LOGGER: logging.Logger = logging.getLogger(__package__)
 
-
 class DovecotQuotasUpdateCoordinator(DataUpdateCoordinator):
     """Class to manage fetching data from the API."""
 

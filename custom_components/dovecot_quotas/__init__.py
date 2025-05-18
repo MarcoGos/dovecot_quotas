@@ -15,8 +15,6 @@ from .const import (
 )
 from .coordinator import DovecotQuotasUpdateCoordinator
 
-_LOGGER: logging.Logger = logging.getLogger(__package__)
-
 async def async_setup_entry(hass: HomeAssistant, config_entry: ConfigEntry) -> bool:
     """Set up Dovecot quotas from a config entry."""
     if hass.data.get(DOMAIN) is None:
@@ -25,8 +23,6 @@ async def async_setup_entry(hass: HomeAssistant, config_entry: ConfigEntry) -> b
     hostname = config_entry.data[CONF_HOSTNAME]
     username = config_entry.data[CONF_USERNAME]
     password = config_entry.data[CONF_PASSWORD]
-
-    _LOGGER.debug("entry.data: %s", config_entry.data)
 
     api = QuotasAPI(
         hostname=hostname,

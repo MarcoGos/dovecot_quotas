@@ -35,8 +35,6 @@ from .const import (
     CONF_VERSION,
 )
 
-_LOGGER = logging.getLogger(__name__)
-
 def get_sensor_descriptions() -> list[SensorEntityDescription]:
     descriptions: list[SensorEntityDescription] = [
         SensorEntityDescription(
