@@ -32,7 +32,7 @@ class DovecotQuotasOptionsFlowHandler(config_entries.OptionsFlow):
         """Initialize Dovecot Quotas options flow."""
 
     async def async_step_init(
-        self, user_input: dict[str, Any] | None = None
+        self, _: dict[str, Any] | None = None
     ) -> FlowResult:
         """Manage the Dovecot Quotas options."""
         return await self.async_step_accounts()
@@ -42,7 +42,6 @@ class DovecotQuotasOptionsFlowHandler(config_entries.OptionsFlow):
     ) -> ConfigFlowResult:
         """Handle a reconfiguration flow initialized by the user."""
         errors: dict[str, str] | None = {}
-#        entry = self.hass.config_entries.async_get_entry(self.context["entry_id"])
         entry = self.config_entry
 
         if user_input is not None:
@@ -65,7 +64,7 @@ class DovecotQuotasOptionsFlowHandler(config_entries.OptionsFlow):
                 entry, data=entry.data | user_input # type: ignore
             )
             await self.hass.config_entries.async_reload(entry.entry_id) # type: ignore
-            return self.async_abort(reason="configure_successful")
+            return self.async_abort(reason="changes_successful")
 
         hostname = entry.data.get(CONF_HOSTNAME)
         username = entry.data.get(CONF_USERNAME)
@@ -92,7 +91,6 @@ class DovecotQuotasOptionsFlowHandler(config_entries.OptionsFlow):
                 data_schema=data_schema,
                 suggested_values=entry.data | (user_input or {}), # type: ignore
             ),
-            description_placeholders={"name": entry.title}, # type: ignore
             errors=errors,
         )
 

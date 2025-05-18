@@ -20,6 +20,7 @@
             },
             "accounts": {
                 "description": "Select the accounts you want to track",
+                "title": "Accounts",
                 "data": {
                     "accounts": "Accounts"
                 }
@@ -36,11 +37,12 @@
     },
     "options": {
         "abort": {
-            "configure_successful": "Configuration was successful"
+            "changes_successful": "Changes saved successfully."
         },
         "step": {
             "accounts": {
                 "description": "Select the accounts you want to track",
+                "title": "Accounts",
                 "data": {
                     "accounts": "Accounts"
                 }

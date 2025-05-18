@@ -20,6 +20,7 @@
             },
             "accounts": {
                 "description": "Selecteer de accounts die u wilt volgen",
+                "title": "Accounts",
                 "data": {
                     "accounts": "Accounts"
                 }
@@ -36,11 +37,12 @@
     },
     "options": {
         "abort": {
-            "configure_successful": "Configuratie is geslaagd"
+            "changes_successful": "Wijzigingen succesvol opgeslagen."
         },
         "step": {
             "accounts": {
                 "description": "Selecteer de accounts die u wilt volgen",
+                "title": "Accounts",
                 "data": {
                     "accounts": "Accounts"
                 }
