@@ -25,7 +25,22 @@
                 }
             },
             "reconfigure": {
-                "description": "Herconfigureer het apparaat",
+                "description": "Dovecot host informatie",
+                "data": {
+                    "hostname": "Hostname",
+                    "username": "Gebruikersnaam",
+                    "password": "Wachtwoord"
+                }
+            }
+        }
+    },
+    "options": {
+        "abort": {
+            "configure_successful": "Configuratie is geslaagd"
+        },
+        "step": {
+            "accounts": {
+                "description": "Selecteer de accounts die u wilt volgen",
                 "data": {
                     "accounts": "Accounts"
                 }

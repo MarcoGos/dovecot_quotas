@@ -25,7 +25,22 @@
                 }
             },
             "reconfigure": {
-                "description": "Reconfigure the device",
+                "description": "Dovecot host information",
+                "data": {
+                    "hostname": "Hostname",
+                    "username": "Username",
+                    "password": "Password"
+                }
+            }
+        }
+    },
+    "options": {
+        "abort": {
+            "configure_successful": "Configuration was successful"
+        },
+        "step": {
+            "accounts": {
+                "description": "Select the accounts you want to track",
                 "data": {
                     "accounts": "Accounts"
                 }
