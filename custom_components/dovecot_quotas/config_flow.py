@@ -120,7 +120,7 @@ class DovecotQuotasConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                     password=user_input[CONF_PASSWORD],
                 )
                 await api.test_connection()
-            except socket.gaierror:
+            except (socket.gaierror, paramiko.ssh_exception.NoValidConnectionsError):
                 errors["base"] = "cannot_connect"
             except paramiko.ssh_exception.AuthenticationException:
                 errors["base"] = "invalid_auth"
@@ -199,7 +199,7 @@ class DovecotQuotasConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                     password=user_input[CONF_PASSWORD],
                 )
                 await api.test_connection()
-            except socket.gaierror:
+            except (socket.gaierror, paramiko.ssh_exception.NoValidConnectionsError):
                 errors["base"] = "cannot_connect"
             except paramiko.ssh_exception.AuthenticationException:
                 errors["base"] = "invalid_auth"

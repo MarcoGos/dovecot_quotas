@@ -44,14 +44,19 @@ class QuotasAPI:
 
         quotas = {}
         for line in result.splitlines():
-            mailbox, *_, used, quota, percentage_used = re.split(r" {1,}", line)
+            mailbox, *_, used, quota, _ = re.split(r" {1,}", line)
+            used = float(used)
+            quota = float(quota) if quota != '-' else None
+            percentage_used = round(float(used) / float(quota) * 100, 1) if quota else None
+            free = float(quota) - float(used) if quota else None
+            percentage_free = 100 - percentage_used if percentage_used else None
             quotas[mailbox] = {
                 'name': mailbox,
-                'used': float(used),
-                'quota': float(quota) if quota != '-' else None,
-                'percentage_used': float(percentage_used) if quota != '-' else None,
-                'free': float(quota) - float(used) if quota != '-' else None,
-                'percentage_free': 100 - float(percentage_used) if quota != '-' else None,
+                'used': used,
+                'quota': quota,
+                'percentage_used': percentage_used,
+                'free': free,
+                'percentage_free': percentage_free,
             }
         self._quotas = quotas
 
