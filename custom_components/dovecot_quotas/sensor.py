@@ -1,7 +1,5 @@
 """Sensor setup for our Integration."""
 
-import logging
-
 from homeassistant.components.sensor import (
     SensorEntity,
     SensorEntityDescription
