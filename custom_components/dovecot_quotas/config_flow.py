@@ -27,7 +27,7 @@ class DovecotQuotasOptionsFlowHandler(config_entries.OptionsFlow):
     def __init__(self) -> None:
         """Initialize Dovecot Quotas options flow."""
 
-    async def async_step_init(self, _: dict[str, Any] | None = None) -> FlowResult:
+    async def async_step_init(self, _: dict[str, Any] | None = None) -> ConfigFlowResult:
         """Manage the Dovecot Quotas options."""
         return await self.async_step_accounts()
 
@@ -61,9 +61,9 @@ class DovecotQuotasOptionsFlowHandler(config_entries.OptionsFlow):
             await self.hass.config_entries.async_reload(entry.entry_id)  # type: ignore
             return self.async_abort(reason="changes_successful")
 
-        hostname = entry.data.get(CONF_HOSTNAME)
-        username = entry.data.get(CONF_USERNAME)
-        password = entry.data.get(CONF_PASSWORD)
+        hostname = entry.data.get(CONF_HOSTNAME, '')
+        username = entry.data.get(CONF_USERNAME, '')
+        password = entry.data.get(CONF_PASSWORD, '')
         api = QuotasAPI(
             hostname=hostname,
             username=username,
@@ -100,7 +100,7 @@ class DovecotQuotasConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
     async def async_step_user(
         self, user_input: dict[str, Any] | None = None
-    ) -> FlowResult:
+    ) -> ConfigFlowResult:
         """Handle the initial step."""
         errors: dict[str, str] | None = {}
 
@@ -147,7 +147,7 @@ class DovecotQuotasConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
     async def async_step_accounts(
         self, user_input: dict[str, Any] | None = None
-    ) -> FlowResult:
+    ) -> ConfigFlowResult:
         """Handle the accounts step."""
 
         if user_input is not None:
@@ -179,7 +179,7 @@ class DovecotQuotasConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     ) -> ConfigFlowResult:
         """Handle a reconfiguration flow initialized by the user."""
         errors: dict[str, str] | None = {}
-        entry = self.hass.config_entries.async_get_entry(self.context["entry_id"])
+        entry = self.hass.config_entries.async_get_entry(self.context["entry_id"]) # type: ignore
 
         if user_input is not None:
             try:
@@ -198,8 +198,8 @@ class DovecotQuotasConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 errors["base"] = "unknown"
             else:
                 self.hass.config_entries.async_update_entry(
-                    entry,
-                    data=entry.data | user_input,  # type: ignore
+                    entry, # type: ignore
+                    data=entry.data | user_input, # type: ignore
                 )
                 await self.hass.config_entries.async_reload(entry.entry_id)  # type: ignore
                 return self.async_abort(reason="reconfigure_successful")

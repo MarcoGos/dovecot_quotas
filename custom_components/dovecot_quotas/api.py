@@ -91,7 +91,7 @@ class QuotasAPI:
             )
         except (paramiko.SSHException, socket.timeout) as e:
             _LOGGER.error("SSH connection failed: %s", e)
-            return
+            return ''
         ssh_stdin, ssh_stdout, ssh_stderr = ssh.exec_command(command)
         ssh_stdin.close()
         ssh_stderr.close()

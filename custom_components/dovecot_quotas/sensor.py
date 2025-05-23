@@ -14,8 +14,7 @@ from homeassistant.const import (
     PERCENTAGE,
     UnitOfInformation,
 )
-from homeassistant.helpers.device_registry import DeviceEntryType
-from homeassistant.helpers.entity import DeviceInfo
+from homeassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.typing import StateType
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
@@ -94,7 +93,7 @@ async def async_setup_entry(
     entities: list[AccountSensor] = []
 
     # Add all sensors described above.
-    for account in config_entry.data.get(CONF_ACCOUNTS):
+    for account in config_entry.data.get(CONF_ACCOUNTS, []):
         for description in get_sensor_descriptions():
             entities.append(
                 AccountSensor(
