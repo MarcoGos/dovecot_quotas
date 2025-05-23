@@ -2,7 +2,7 @@
 
 NAME = "Dovecot Quotas"
 DOMAIN = "dovecot_quotas"
-MODEL = 'Quota'
+MODEL = "Quota"
 MANUFACTURER = "Dovecot"
 
 # Platforms

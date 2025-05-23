@@ -1,13 +1,10 @@
 """Sensor setup for our Integration."""
 
-from homeassistant.components.sensor import (
-    SensorEntity,
-    SensorEntityDescription
-)
+from homeassistant.components.sensor import SensorEntity, SensorEntityDescription
 from homeassistant.components.sensor.const import (
     DOMAIN as SENSOR_DOMAIN,
     SensorDeviceClass,
-    SensorStateClass
+    SensorStateClass,
 )
 
 
@@ -32,6 +29,7 @@ from .const import (
     CONF_ACCOUNTS,
     CONF_VERSION,
 )
+
 
 def get_sensor_descriptions() -> list[SensorEntityDescription]:
     descriptions: list[SensorEntityDescription] = [
@@ -83,13 +81,16 @@ def get_sensor_descriptions() -> list[SensorEntityDescription]:
     ]
     return descriptions
 
+
 async def async_setup_entry(
     hass: HomeAssistant,
     config_entry: ConfigEntry,
     async_add_entities: AddEntitiesCallback,
 ) -> None:
     """Set up Dovecot Quotas sensors based on a config entry."""
-    coordinator: DovecotQuotasUpdateCoordinator = hass.data[DOMAIN][config_entry.entry_id]
+    coordinator: DovecotQuotasUpdateCoordinator = hass.data[DOMAIN][
+        config_entry.entry_id
+    ]
     entities: list[AccountSensor] = []
 
     # Add all sensors described above.
@@ -100,10 +101,11 @@ async def async_setup_entry(
                     coordinator=coordinator,
                     entry_id=config_entry.entry_id,
                     description=description,
-                    account=account
+                    account=account,
                 )
             )
     async_add_entities(entities)
+
 
 class AccountSensor(CoordinatorEntity[DovecotQuotasUpdateCoordinator], SensorEntity):
     """Defines a Dovecot Quotas sensor."""
@@ -115,7 +117,7 @@ class AccountSensor(CoordinatorEntity[DovecotQuotasUpdateCoordinator], SensorEnt
         coordinator: DovecotQuotasUpdateCoordinator,
         entry_id: str,
         description: SensorEntityDescription,
-        account: str
+        account: str,
     ) -> None:
         """Initialize Dovecot Quotas sensor."""
         super().__init__(coordinator=coordinator)
@@ -134,7 +136,7 @@ class AccountSensor(CoordinatorEntity[DovecotQuotasUpdateCoordinator], SensorEnt
         self._account = account
 
     @property
-    def native_value(self) -> StateType: # type: ignore
+    def native_value(self) -> StateType:  # type: ignore
         """Return the state of the sensor."""
         accounts = self.coordinator.data.get(CONF_ACCOUNTS, {})
         quota_info = accounts.get(self._account, None)

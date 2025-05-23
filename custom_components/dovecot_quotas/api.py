@@ -1,4 +1,5 @@
-'''Dovecot Quotas API'''
+"""Dovecot Quotas API"""
+
 import re
 import logging
 import socket
@@ -11,30 +12,33 @@ GET_DOVECOT_VERSION_CMD = "doveadm --version"
 
 _LOGGER = logging.getLogger(__name__)
 
+
 class QuotasAPI:
-    '''Class to interact with the Dovecot Quotas API.'''
+    """Class to interact with the Dovecot Quotas API."""
+
     _quotas = {}
     _hostname: str
     _username: str
     _password: str
-    def __init__(self, hostname: str, username: str, password:str):
+
+    def __init__(self, hostname: str, username: str, password: str):
         self._hostname = hostname
         self._username = username
         self._password = password
 
     async def get_version(self) -> str:
-        '''Get the version of Dovecot installed on the server.'''
+        """Get the version of Dovecot installed on the server."""
         output = await self.execute_command(GET_DOVECOT_VERSION_CMD)
         version = re.search(r"(\d+\.\d+\.\d+\.\d+)", output)
         return version.group() if version else ""
 
     async def get_quotas(self):
-        '''Get the quotas for all mailboxes.'''
+        """Get the quotas for all mailboxes."""
         await self.update_quotas()
         return self._quotas
 
     async def update_quotas(self):
-        '''Update the quotas for all mailboxes.'''
+        """Update the quotas for all mailboxes."""
         self._quotas = {}
 
         result = await self.execute_command(GET_QUOTA_CMD)
@@ -46,34 +50,36 @@ class QuotasAPI:
         for line in result.splitlines():
             mailbox, *_, used, quota, _ = re.split(r" {1,}", line)
             used = float(used)
-            quota = float(quota) if quota != '-' else None
-            percentage_used = round(float(used) / float(quota) * 100, 1) if quota else None
+            quota = float(quota) if quota != "-" else None
+            percentage_used = (
+                round(float(used) / float(quota) * 100, 1) if quota else None
+            )
             free = float(quota) - float(used) if quota else None
             percentage_free = 100 - percentage_used if percentage_used else None
             quotas[mailbox] = {
-                'name': mailbox,
-                'used': used,
-                'quota': quota,
-                'percentage_used': percentage_used,
-                'free': free,
-                'percentage_free': percentage_free,
+                "name": mailbox,
+                "used": used,
+                "quota": quota,
+                "percentage_used": percentage_used,
+                "free": free,
+                "percentage_free": percentage_free,
             }
         self._quotas = quotas
 
     async def test_connection(self):
-        '''Test the SSH connection to the server.'''
+        """Test the SSH connection to the server."""
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         ssh.connect(
             self._hostname,
             username=self._username,
             password=self._password,
-            timeout=TIMEOUT
+            timeout=TIMEOUT,
         )
         ssh.close()
 
     async def execute_command(self, command: str) -> str:
-        '''Execute a command on the server via SSH.'''
+        """Execute a command on the server via SSH."""
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         try:
@@ -81,7 +87,7 @@ class QuotasAPI:
                 self._hostname,
                 username=self._username,
                 password=self._password,
-                timeout=TIMEOUT
+                timeout=TIMEOUT,
             )
         except (paramiko.SSHException, socket.timeout) as e:
             _LOGGER.error("SSH connection failed: %s", e)
