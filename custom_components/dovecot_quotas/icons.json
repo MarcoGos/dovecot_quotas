@@ -1,0 +1,27 @@
+{
+    "entity": {
+        "sensor": {
+            "quota": {
+                "default": "mdi:car-speed-limiter"
+            },
+            "used": {
+                "default": "mdi:database-arrow-up"
+            },
+            "percentage_used": {
+                "default": "mdi:gauge",
+                "range": {
+                    "0": "mdi:gauge-empty",
+                    "20": "mdi:gauge-low",
+                    "50": "mdi:gauge",
+                    "80": "mdi:gauge-full"
+                }
+            },
+            "free": {
+                "default": "mdi:database-edit"
+            },
+            "percentage_free": {
+                "default": "mdi:percent-outline"
+            }
+        }
+    }
+}

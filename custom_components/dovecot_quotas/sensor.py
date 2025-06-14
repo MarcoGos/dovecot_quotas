@@ -35,7 +35,6 @@ def get_sensor_descriptions() -> list[SensorEntityDescription]:
         SensorEntityDescription(
             key="quota",
             translation_key="quota",
-            icon="mdi:car-speed-limiter",
             device_class=SensorDeviceClass.DATA_SIZE,
             native_unit_of_measurement=UnitOfInformation.KILOBYTES,
             suggested_unit_of_measurement=UnitOfInformation.MEGABYTES,
@@ -44,7 +43,6 @@ def get_sensor_descriptions() -> list[SensorEntityDescription]:
         SensorEntityDescription(
             key="used",
             translation_key="used",
-            icon="mdi:gauge-low",
             state_class=SensorStateClass.MEASUREMENT,
             device_class=SensorDeviceClass.DATA_SIZE,
             native_unit_of_measurement=UnitOfInformation.KILOBYTES,
@@ -54,14 +52,12 @@ def get_sensor_descriptions() -> list[SensorEntityDescription]:
         SensorEntityDescription(
             key="percentage_used",
             translation_key="percentage_used",
-            icon="mdi:percent-outline",
             native_unit_of_measurement=PERCENTAGE,
             state_class=SensorStateClass.MEASUREMENT,
         ),
         SensorEntityDescription(
             key="free",
             translation_key="free",
-            icon="mdi:gauge-low",
             state_class=SensorStateClass.MEASUREMENT,
             device_class=SensorDeviceClass.DATA_SIZE,
             native_unit_of_measurement=UnitOfInformation.KILOBYTES,
@@ -72,7 +68,6 @@ def get_sensor_descriptions() -> list[SensorEntityDescription]:
         SensorEntityDescription(
             key="percentage_free",
             translation_key="percentage_free",
-            icon="mdi:percent-outline",
             native_unit_of_measurement=PERCENTAGE,
             state_class=SensorStateClass.MEASUREMENT,
             entity_registry_enabled_default=False,
