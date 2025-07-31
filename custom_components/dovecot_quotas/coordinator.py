@@ -3,6 +3,7 @@
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 import logging
+from homeassistant import config_entries
 from homeassistant.helpers.update_coordinator import UpdateFailed, DataUpdateCoordinator
 from homeassistant.core import HomeAssistant
 from .api import QuotasAPI
@@ -14,7 +15,12 @@ _LOGGER: logging.Logger = logging.getLogger(__package__)
 class DovecotQuotasUpdateCoordinator(DataUpdateCoordinator):
     """Class to manage fetching data from the API."""
 
-    def __init__(self, hass: HomeAssistant, api: QuotasAPI) -> None:
+    def __init__(
+        self,
+        hass: HomeAssistant,
+        api: QuotasAPI,
+        config_entry: config_entries.ConfigEntry,
+    ) -> None:
         """Initialize."""
         self.api = api
         self.platforms: list[str] = []
@@ -26,6 +32,7 @@ class DovecotQuotasUpdateCoordinator(DataUpdateCoordinator):
             _LOGGER,
             name=DOMAIN,
             update_interval=timedelta(seconds=DEFAULT_SYNC_INTERVAL),
+            config_entry=config_entry,
         )
 
     async def _async_update_data(self):
